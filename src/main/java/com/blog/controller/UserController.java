@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/public/api/v1/posts")
+@RequestMapping("/public/api/v1/users")
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);

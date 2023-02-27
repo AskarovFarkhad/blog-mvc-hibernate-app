@@ -1,5 +1,10 @@
 package com.blog.model;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,16 +24,22 @@ public class User {
     @Column(name = "external_id", unique = true)
     private UUID externalId;
 
+    @NotEmpty(message = "\"Name\" field must not be empty")
+    @Size(min = 2, message = "\"Name\" field should be don't less 2 characters long")
     private String userName;
 
+    @Email(message = "\"Email\" field should be valid")
+    @NotBlank(message = "\"Email\" field must not be empty")
     private String email;
 
+    @NotBlank(message = "\"Password\" field must not be empty")
+    @Size(min = 8, message = "\"Password\" field should be don't less 8 characters long")
     private String password;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Post> posts = new HashSet<>();
 
     public User() {

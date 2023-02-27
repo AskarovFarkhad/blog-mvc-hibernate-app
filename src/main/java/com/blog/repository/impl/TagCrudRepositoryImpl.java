@@ -1,6 +1,5 @@
 package com.blog.repository.impl;
 
-import com.blog.model.Comment;
 import com.blog.model.Tag;
 import com.blog.repository.CrudRepository;
 import org.hibernate.Session;
@@ -43,14 +42,17 @@ public class TagCrudRepositoryImpl implements CrudRepository<Tag, Long> {
     @Transactional
     public void update(Long id, Tag obj) {
         Session session = sessionFactory.getCurrentSession();
-        Comment comment = session.get(Comment.class, id);
-        comment.setContent(obj.getName());
+        Tag tag = session.get(Tag.class, id);
+        tag.setName(obj.getName());
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.remove(session.get(Comment.class, id));
+        Tag tag = session.get(Tag.class, id);
+        if (tag != null) {
+            session.remove(tag);
+        }
     }
 }

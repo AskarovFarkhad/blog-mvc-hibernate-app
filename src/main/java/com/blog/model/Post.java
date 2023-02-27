@@ -1,5 +1,8 @@
 package com.blog.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -20,17 +23,20 @@ public class Post {
     @Column(name = "external_id", unique = true)
     private UUID externalId;
 
+    @NotBlank(message = "\"Title\" field must not be empty")
     private String title;
 
+    @NotBlank(message = "\"Content\" field must not be empty")
+    @Size(min = 10, message = "\"Content\" field should be don't less 10 characters long")
     private String content;
 
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User author;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToMany

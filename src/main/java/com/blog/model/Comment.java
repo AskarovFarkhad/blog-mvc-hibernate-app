@@ -1,5 +1,7 @@
 package com.blog.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,15 +19,16 @@ public class Comment {
     @Column(name = "external_id", unique = true)
     private UUID externalId;
 
+    @NotBlank(message = "\"Content\" field must not be empty")
     private String content;
 
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User author;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post post;
 

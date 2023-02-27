@@ -6,6 +6,7 @@ import com.blog.repository.impl.PostCrudRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public class CommentService {
 
     public void save(Comment comment, Long postId) {
         comment.setExternalId(UUID.randomUUID());
+        comment.setCreatedAt(LocalDateTime.now());
         comment.setPost(postCrudRepository.findById(postId));
         repository.save(comment);
     }

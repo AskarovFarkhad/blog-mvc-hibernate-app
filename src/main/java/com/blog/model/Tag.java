@@ -1,5 +1,7 @@
 package com.blog.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -18,6 +20,7 @@ public class Tag {
     @Column(name = "external_id", unique = true)
     private UUID externalId;
 
+    @NotBlank(message = "\"Tag\" field must not be empty")
     private String name;
 
     @ManyToMany(mappedBy = "tags")

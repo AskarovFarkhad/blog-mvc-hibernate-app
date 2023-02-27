@@ -45,7 +45,8 @@ public class CommentController {
     }
 
     @PatchMapping("/{commentId}")
-    public String updateComment(@PathVariable("commentId") Long commentId, Comment comment, BindingResult bindingResult) {
+    public String updateComment(@PathVariable("commentId") Long commentId, @Valid Comment comment,
+                                BindingResult bindingResult) {
         log.info("Update request received of comment {} with new data {}", commentId, comment);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());

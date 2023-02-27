@@ -23,7 +23,7 @@ public class CommentCrudRepositoryImpl implements CrudRepository<Comment, Long> 
     @Override
     @Transactional(readOnly = true)
     public List<Comment> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("SELECT p FROM Comment p", Comment.class).getResultList();
+        return sessionFactory.getCurrentSession().createQuery("SELECT c FROM Comment c", Comment.class).getResultList();
     }
 
     @Override
@@ -50,6 +50,9 @@ public class CommentCrudRepositoryImpl implements CrudRepository<Comment, Long> 
     @Transactional
     public void delete(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.remove(session.get(Comment.class, id));
+        Comment comment = session.get(Comment.class, id);
+        if (comment != null) {
+            session.remove(comment);
+        }
     }
 }

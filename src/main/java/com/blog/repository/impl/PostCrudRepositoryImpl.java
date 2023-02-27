@@ -51,6 +51,9 @@ public class PostCrudRepositoryImpl implements CrudRepository<Post, Long> {
     @Transactional
     public void delete(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.remove(session.get(Post.class, id));
+        Post post = session.get(Post.class, id);
+        if (post != null) {
+            session.remove(post);
+        }
     }
 }
