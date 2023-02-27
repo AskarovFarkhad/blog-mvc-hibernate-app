@@ -1,6 +1,7 @@
 package com.blog.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -25,12 +26,30 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "author")
-    private Set<Comment> comments;
+    private Set<Comment> comments = new HashSet<>();
 
     @OneToMany(mappedBy = "author")
-    private Set<Post> posts;
+    private Set<Post> posts = new HashSet<>();
 
     public User() {
+    }
+
+    public void addPosts(Post post) {
+        post.setAuthor(this);
+        posts.add(post);
+    }
+
+    public void removePost(Post post) {
+        posts.remove(post);
+    }
+
+    public void addComment(Comment comment) {
+        comment.setAuthor(this);
+        comments.add(comment);
+    }
+
+    public void removeComment(Comment comment) {
+        comments.remove(comment);
     }
 
     public Long getUserId() {
@@ -71,22 +90,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Set<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
     }
 
     @Override

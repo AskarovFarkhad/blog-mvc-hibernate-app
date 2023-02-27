@@ -31,8 +31,7 @@ public class PostController {
     }
 
     @PostMapping()
-    public String createPost(@ModelAttribute("post") @Valid Post post,
-                             BindingResult bindingResult) {
+    public String createPost(@ModelAttribute("post") @Valid Post post, BindingResult bindingResult) {
         log.info("Received request to create a new post {}", post);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());
@@ -52,8 +51,7 @@ public class PostController {
 
     @PatchMapping("/{postId}")
     public String updatePost(@PathVariable("postId") Long postId,
-                             @ModelAttribute("post") @Valid Post post,
-                             BindingResult bindingResult) {
+                             @ModelAttribute("post") @Valid Post post, BindingResult bindingResult) {
         log.info("Update request received of post {} with new data {}", postId, post);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());

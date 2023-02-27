@@ -31,8 +31,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") @Valid User user,
-                             BindingResult bindingResult) {
+    public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         log.info("Received request to create a new user {}", user);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());
@@ -51,8 +50,7 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public String updateUser(@PathVariable("userId") Long userId,
-                             @ModelAttribute("user") @Valid User user,
-                             BindingResult bindingResult) {
+                             @ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         log.info("Update request received of user {} with new data {}", userId, user);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());

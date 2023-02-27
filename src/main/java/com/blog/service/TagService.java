@@ -24,7 +24,7 @@ public class TagService {
 
     public void save(Tag tag, Long postId) {
         tag.setExternalId(UUID.randomUUID());
-        tag.getPosts().add(postCrudRepository.findById(postId));
+        tag.addPost(postCrudRepository.findById(postId));
         repository.save(tag);
     }
 
