@@ -1,13 +1,13 @@
 package com.blog.configure;
 
-import jakarta.servlet.FilterRegistration;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import jakarta.servlet.DispatcherType;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import java.util.EnumSet;
 
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -33,6 +33,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
         registerCharacterEncodingFilter(servletContext);
         registerHiddenFieldFilter(servletContext);
     }
+
 
     private void registerHiddenFieldFilter(ServletContext servletContext) {
         servletContext.addFilter("hiddenHttpMethodFilter",
