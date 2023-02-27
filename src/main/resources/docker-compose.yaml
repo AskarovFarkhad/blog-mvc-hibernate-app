@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: blog-hibernate-mvc-app
+    image: postgres:15.1-alpine
+    environment:
+      POSTGRES_DB: blog_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      PGDATA: /data/postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    container_name: pgadmin-ui
+    image: dpage/pgadmin4:6.17
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pdfmain.user@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: password123
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+
+volumes:
+  pgdata:
+  pgadmin:
