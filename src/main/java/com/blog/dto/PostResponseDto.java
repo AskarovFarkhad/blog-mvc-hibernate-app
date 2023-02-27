@@ -1,51 +1,37 @@
-package com.blog.model;
+package com.blog.dto;
 
-import javax.persistence.*;
+import com.blog.model.Comment;
+import com.blog.model.Tag;
+import com.blog.model.User;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
-@Table(name = "posts")
-public class Post {
+public class PostResponseDto {
 
-    @Id
-    @Column(name = "post_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "posts_sequence")
-    @SequenceGenerator(name = "posts_sequence", allocationSize = 1)
     private Long postId;
 
-    @Column(name = "external_id", unique = true)
     private UUID externalId;
 
+    @NotBlank(message = "\"Title\" field must not be empty")
     private String title;
 
+    @NotBlank(message = "\"Content\" field must not be empty")
+    @Size(min = 10, message = "\"Content\" field should be don't less 10 characters long")
     private String content;
 
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "post")
-    private Set<Comment> comments;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User author;
 
-    @ManyToMany
-    @JoinTable(name = "post_tags",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Comment> comments;
+
     private Set<Tag> tags;
 
-    public Post() {
-    }
-
-    public Long getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Long postId) {
-        this.postId = postId;
+    public PostResponseDto() {
     }
 
     public UUID getExternalId() {
@@ -54,6 +40,14 @@ public class Post {
 
     public void setExternalId(UUID externalId) {
         this.externalId = externalId;
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
     public String getTitle() {
@@ -80,20 +74,20 @@ public class Post {
         this.createdAt = createdAt;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
     public User getAuthor() {
         return author;
     }
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public Set<Tag> getTags() {

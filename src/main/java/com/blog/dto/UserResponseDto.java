@@ -1,35 +1,38 @@
-package com.blog.model;
+package com.blog.dto;
 
-import javax.persistence.*;
+import com.blog.model.Comment;
+import com.blog.model.Post;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
-@Table(name = "users")
-public class User {
+public class UserResponseDto {
 
-    @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_sequence")
-    @SequenceGenerator(name = "users_sequence", allocationSize = 1)
     private Long userId;
 
-    @Column(name = "external_id", unique = true)
     private UUID externalId;
 
+    @NotEmpty(message = "\"Name\" field must not be empty")
+    @Size(min = 2, message = "\"Name\" field should be don't less 2 characters long")
     private String userName;
 
+    @Email(message = "\"Email\" field should be valid")
+    @NotBlank(message = "\"Email\" field must not be empty")
     private String email;
 
+    @NotBlank(message = "\"Password\" field must not be empty")
+    @Size(min = 8, message = "\"Password\" field should be don't less 8 characters long")
     private String password;
 
-    @OneToMany(mappedBy = "author")
     private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "author")
     private Set<Post> posts;
 
-    public User() {
+    public UserResponseDto() {
     }
 
     public Long getUserId() {

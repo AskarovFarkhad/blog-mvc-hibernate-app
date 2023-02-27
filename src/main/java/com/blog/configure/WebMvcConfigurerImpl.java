@@ -25,7 +25,8 @@ import java.util.Properties;
 @EnableWebMvc
 @Configuration
 @ComponentScan("com.blog")
-@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement
+//        (proxyTargetClass = true)
 @PropertySource("classpath:hibernate.properties")
 public class WebMvcConfigurerImpl implements WebMvcConfigurer {
 
