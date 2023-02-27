@@ -2,6 +2,7 @@ package com.blog.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -102,5 +103,31 @@ public class Post {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return postId.equals(post.postId) && externalId.equals(post.externalId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(postId, externalId);
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "externalId=" + externalId +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                ", comments=" + comments +
+                ", author=" + author +
+                ", tags=" + tags +
+                '}';
     }
 }

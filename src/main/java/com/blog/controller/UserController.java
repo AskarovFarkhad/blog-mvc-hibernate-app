@@ -1,7 +1,6 @@
 package com.blog.controller;
 
-import com.blog.dto.UserRequestDto;
-import com.blog.dto.UserResponseDto;
+import com.blog.model.User;
 import com.blog.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -27,19 +26,19 @@ public class UserController {
 
     @GetMapping("/new")
     public String createUser(Model model) {
-        model.addAttribute("user", new UserRequestDto());
+        model.addAttribute("user", new User());
         return "user/create-user";
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") @Valid UserRequestDto userRequestDto,
+    public String createUser(@ModelAttribute("user") @Valid User user,
                              BindingResult bindingResult) {
-        log.info("Received request to create a new user {}", userRequestDto);
+        log.info("Received request to create a new user {}", user);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());
             return "user/create-user";
         }
-        service.save(userRequestDto);
+        service.save(user);
         return "redirect:/public/api/v1/posts";
     }
 
@@ -52,14 +51,14 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public String updateUser(@PathVariable("userId") Long userId,
-                             @ModelAttribute("user") @Valid UserResponseDto userResponseDto,
+                             @ModelAttribute("user") @Valid User user,
                              BindingResult bindingResult) {
-        log.info("Update request received of user {} with new data {}", userId, userResponseDto);
+        log.info("Update request received of user {} with new data {}", userId, user);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());
             return "user/update-user";
         }
-        service.update(userId, userResponseDto);
+        service.update(userId, user);
         return "redirect:/public/api/v1/users/all";
     }
 

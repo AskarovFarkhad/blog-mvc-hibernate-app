@@ -1,7 +1,8 @@
 package com.blog.controller;
 
-import com.blog.dto.PostRequestDto;
-import com.blog.dto.PostResponseDto;
+import com.blog.model.Comment;
+import com.blog.model.Post;
+import com.blog.model.Tag;
 import com.blog.service.PostService;
 import com.blog.service.UserService;
 import jakarta.validation.Valid;
@@ -30,35 +31,35 @@ public class PostController {
     }
 
     @PostMapping()
-    public String createPost(@ModelAttribute("post") @Valid PostRequestDto postRequestDto,
+    public String createPost(@ModelAttribute("post") @Valid Post post,
                              BindingResult bindingResult) {
-        log.info("Received request to create a new post {}", postRequestDto);
+        log.info("Received request to create a new post {}", post);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());
             return "redirect:/public/api/v1/posts";
         }
-        postService.save(postRequestDto);
+        postService.save(post);
         return "redirect:/public/api/v1/posts";
     }
 
     @GetMapping("/{postId}/edit")
     public String updatePost(@PathVariable("postId") Long postId, Model model) {
-        PostResponseDto postResponseDto = postService.getById(postId);
-        log.info("Received request to update a post {}", postResponseDto);
-        model.addAttribute("post", postResponseDto);
+        Post post = postService.getById(postId);
+        log.info("Received request to update a post {}", post);
+        model.addAttribute("post", post);
         return "post/update-post";
     }
 
     @PatchMapping("/{postId}")
     public String updatePost(@PathVariable("postId") Long postId,
-                             @ModelAttribute("post") @Valid PostResponseDto postResponseDto,
+                             @ModelAttribute("post") @Valid Post post,
                              BindingResult bindingResult) {
-        log.info("Update request received of post {} with new data {}", postId, postResponseDto);
+        log.info("Update request received of post {} with new data {}", postId, post);
         if (bindingResult.hasErrors()) {
             log.error("Data not validated {}", bindingResult.getAllErrors());
             return "post/update-post";
         }
-        postService.update(postId, postResponseDto);
+        postService.update(postId, post);
         return "redirect:/public/api/v1/posts";
     }
 
@@ -74,7 +75,7 @@ public class PostController {
         log.info("Received request to get all post's");
         model.addAttribute("posts", postService.getAll());
         model.addAttribute("authors", userService.getAllUsers());
-        model.addAttribute("post", new PostRequestDto());
+        model.addAttribute("post", new Post());
         return "post/get-all-posts";
     }
 
@@ -83,8 +84,8 @@ public class PostController {
         log.info("Received request to get post and comment of this post");
         model.addAttribute("post", postService.getById(postId));
         model.addAttribute("authors", userService.getAllUsers());
-//        model.addAttribute("comment", new CommentRequestDto());
-//        model.addAttribute("tag", new TagRequestDto());
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("tag", new Tag());
         return "post/get-post";
     }
 }

@@ -1,6 +1,7 @@
 package com.blog.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -86,5 +87,30 @@ public class User {
 
     public void setPosts(Set<Post> posts) {
         this.posts = posts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId.equals(user.userId) && externalId.equals(user.externalId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, externalId);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "externalId=" + externalId +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", comments=" + comments +
+                ", posts=" + posts +
+                '}';
     }
 }

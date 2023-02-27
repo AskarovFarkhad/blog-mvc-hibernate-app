@@ -1,6 +1,7 @@
-package com.blog.repository;
+package com.blog.repository.impl;
 
 import com.blog.model.User;
+import com.blog.repository.CrudRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

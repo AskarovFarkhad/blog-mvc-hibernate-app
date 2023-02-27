@@ -1,51 +1,41 @@
 package com.blog.service;
 
-import com.blog.dto.UserRequestDto;
-import com.blog.dto.UserResponseDto;
-import com.blog.mapper.UserMapper;
 import com.blog.model.User;
-import com.blog.repository.UserCrudRepositoryImpl;
+import com.blog.repository.impl.UserCrudRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
     private final UserCrudRepositoryImpl repository;
 
-    private final UserMapper mapper;
-
     @Autowired
-    public UserService(UserCrudRepositoryImpl repository, UserMapper mapper) {
+    public UserService(UserCrudRepositoryImpl repository) {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
-    public void save(UserRequestDto userRequestDto) {
-        User user = mapper.toUser(userRequestDto);
-        //user.setExternalId(UUID.randomUUID());
+    public void save(User user) {
+        user.setExternalId(UUID.randomUUID());
         repository.save(user);
     }
 
-    public UserResponseDto getById(Long userId) {
-        return mapper.toUserResponseDto(repository.findById(userId));
+    public User getById(Long userId) {
+        return repository.findById(userId);
     }
 
-    public void update(Long userId, UserResponseDto userResponseDto) {
-        repository.update(userId, mapper.toUser(userResponseDto));
+    public void update(Long userId, User user) {
+        repository.update(userId, user);
     }
 
     public void delete(Long userId) {
         repository.delete(userId);
     }
 
-    public List<UserResponseDto> getAllUsers() {
-        return repository.findAll().stream()
-                .map(mapper::toUserResponseDto)
-                .collect(Collectors.toList());
+    public List<User> getAllUsers() {
+        return repository.findAll();
     }
 }
